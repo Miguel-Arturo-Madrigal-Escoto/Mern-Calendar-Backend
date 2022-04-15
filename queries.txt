@@ -1,0 +1,11 @@
+ // OR
+const userOr = await Usuario.find({ $or: [{ name: 'Miguel'}, { email: { $in: ['miguelarturo@gmail.com'] }}, { name: 'Juan' }] });
+
+// AND
+const userAnd = await Usuario.find({ email: 'miguelarturo@gmail.com', name: 'Arturo' });
+
+// WHERE
+const userWhere = await Usuario.find({ name: 'Juan', email: 'juannn@gmail.com'} );
+
+// IN
+const userIn = await Usuario.find({ name: { $in: ['Juan', 'Arturo'] } });
