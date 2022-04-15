@@ -6,7 +6,7 @@ const generarJWT = require('../helpers/jwt');
 
 const crearUsuario = async (req = request, res = response) => {
     
-    const { name, email, password } = req.body;
+    const { password } = req.body;
     
     try {
         // crear usuario a partir del modelo
@@ -42,6 +42,7 @@ const loginUsuario = async (req = request, res = response) => {
 
     const { email, password } = req.body;
 
+
     try {
         // SELECT * FROM usuarios WHERE email = email, null si no existe
         const usuario =  await Usuario.findOne({ email });
@@ -76,11 +77,14 @@ const loginUsuario = async (req = request, res = response) => {
 
 const revalidarToken = async (req = request, res = response) => {
     
-    
-    
+    const { uid, name } = req;
+
+    //* Generar nuevo JWT
+    const token = await generarJWT(uid, name);
+
     res.json({
         ok: true,
-        msg: 'renew'
+        token
     });
 }
 

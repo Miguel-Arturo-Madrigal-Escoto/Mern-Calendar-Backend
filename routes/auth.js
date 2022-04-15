@@ -3,14 +3,17 @@
     127.0.0.1:PORT/api/auth + route
 */
 
-const express = require('express');
-const router = express.Router()
+const { Router } = require('express');
 // validacion de campos (middleware)
 const { check } = require('express-validator');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { crearUsuario, loginUsuario, revalidarToken } = require('../controllers/auth');
 const { getUserByEmail } = require('../helpers/getUserByEmail');
+const { validarJWT } = require('../middlewares/validar-jwt');
+
+const router = Router()
+
 // Rutas (req, res) , varios middlewares -> []
 // Nota: el custom middleware va como último argumento de los middlewares
 router.post(
@@ -39,6 +42,7 @@ router.post('/',
             // si no existe un usuario con ese correo, no login
             if (!usuario)
                 return Promise.reject();
+
         }).withMessage('Usuario y/o contraseña incorrectos'),
         check('password', 'La contraseña no cumple con los requerimientos').isStrongPassword(),
         validarCampos
@@ -46,7 +50,10 @@ router.post('/',
     loginUsuario
 );
 
-router.get('/renew', revalidarToken);
+router.get('/renew',
+    validarJWT, 
+    revalidarToken
+);
 
-// habilitar ruta
+// Habilitar rutas
 module.exports = router;

@@ -10,13 +10,12 @@ const generarJWT = (uid, name) => {
 
         const payload = { uid, name };
 
-        //! (payload, private key, options, (error, token) callback)
+        //* (payload, private key, options (expiresIn: 'time'), (error, token) callback)
         jwt.sign(payload, SECRET_JWT_SEED, {
             expiresIn: '2h'
         }, (err, token) => {
 
             if (err) {
-                console.log(err)
                 reject('No se pudo generar el token');
             } 
             resolve(token);
@@ -26,4 +25,4 @@ const generarJWT = (uid, name) => {
 
 }
 
-module.exports = generarJWT
+module.exports = generarJWT;
