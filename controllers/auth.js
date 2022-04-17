@@ -31,6 +31,7 @@ const crearUsuario = async (req = request, res = response) => {
         });
 
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             ok: false,
             msg: 'Error al registrar el usuario'
@@ -41,7 +42,6 @@ const crearUsuario = async (req = request, res = response) => {
 const loginUsuario = async (req = request, res = response) => {
 
     const { email, password } = req.body;
-
 
     try {
         // SELECT * FROM usuarios WHERE email = email, null si no existe
@@ -60,7 +60,7 @@ const loginUsuario = async (req = request, res = response) => {
         // TODO: Generar JWT (JSON Web Token)
         const token = await generarJWT(usuario.id, usuario.name);
 
-        res.json({
+        res.status(200).json({
             ok: true,
             uid: usuario.id,
             name: usuario.name,
@@ -68,6 +68,7 @@ const loginUsuario = async (req = request, res = response) => {
         });
         
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             ok: false,
             msg: 'Por favor, hable con el administrador'
@@ -82,7 +83,7 @@ const revalidarToken = async (req = request, res = response) => {
     //* Generar nuevo JWT
     const token = await generarJWT(uid, name);
 
-    res.json({
+    res.status(200).json({
         ok: true,
         token
     });

@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken');
 //Recibir el Payload
 const generarJWT = (uid, name) => {
 
-    const { SECRET_JWT_SEED } = process.env;
+    // clave secreta
+    const { SECRET_JWT_SEED } = process.env; 
 
     return new Promise((resolve, reject) => {
 
