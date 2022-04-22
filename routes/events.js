@@ -1,6 +1,6 @@
 
 /*
-    /api/events + route
+    127.0.0.1:PORT/api/events + route
 */
 
 const { Router } = require('express');

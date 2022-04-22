@@ -20,7 +20,7 @@ router.post(
     '/new',
     [
         check('name', 'El nombre es obligatorio').not().isEmpty(),
-        check('email', 'El correo es obligatorio').isEmail()
+        check('email', 'El correo es invalido').isEmail()
         .custom(async (email) => {
             const usuario = await getUserByEmail(email);
             // si existe un usuario con ese correo, mandar un error
@@ -36,7 +36,7 @@ router.post(
 
 router.post('/', 
     [
-        check('email', 'El correo es obligatorio').isEmail()
+        check('email', 'El correo es invalido').isEmail()
         .custom(async (email) => {
             const usuario = await getUserByEmail(email);
             // si no existe un usuario con ese correo, no login
@@ -44,7 +44,7 @@ router.post('/',
                 return Promise.reject();
 
         }).withMessage('Usuario y/o contraseña incorrectos'),
-        check('password', 'La contraseña no cumple con los requerimientos').isStrongPassword(),
+        check('password', 'La contraseña es obligatoria').exists(),
         validarCampos
     ],
     loginUsuario
