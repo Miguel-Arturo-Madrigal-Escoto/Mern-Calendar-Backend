@@ -11,11 +11,11 @@ const getEventos = async (req = request, res = response) => {
     // .find({}).populate(arg1, 'arg2'), arg1: campo a popular, arg2 (opcional): cadena con los campos que populan separados con espacio;
 
     try {
-        const eventos = await Evento.find({}).populate('user',  'name');
+        const events = await Evento.find({}).populate('user',  'name');
 
         res.status(200).json({
             ok: true,
-            eventos
+            events
         });
 
 
@@ -37,7 +37,6 @@ const crearEvento = async (req = request, res = response) => {
         evento.user = req.uid;
 
         const eventoGuardado = await evento.save();
-
 
         res.status(201).json({
             ok: true,
@@ -73,7 +72,7 @@ const actualizarEvento = async (req = request, res = response) => {
 
         return res.status(200).json({
             ok: true,
-            evento: eventoDB
+            event: eventoDB
         });
         
     } catch (error) {
@@ -83,12 +82,6 @@ const actualizarEvento = async (req = request, res = response) => {
             msg: 'Por favor, hable con el administrador'
         });
     }
-
-    res.json({
-        ok: true,
-        msg: 'actualizarEvento',
-        id: req.params.id
-    });
 
 }
 
@@ -102,7 +95,7 @@ const eliminarEvento = async (req = request, res = response) => {
 
         res.status(200).json({
             ok: true,
-            evento: eventoDB
+            event: eventoDB
         });
 
     } catch (error) {

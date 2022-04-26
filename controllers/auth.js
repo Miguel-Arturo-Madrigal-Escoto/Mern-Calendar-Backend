@@ -76,6 +76,53 @@ const loginUsuario = async (req = request, res = response) => {
     }   
 }
 
+const loginWithSocialNetworks = async (req = request, res = response) => {
+
+    //uid: firebase/github
+    const { uid, name, email } = req.body;
+
+    try {
+        
+        let usuario = await Usuario.findOne({ email });
+
+
+        // Si hay un usuario, iniciar sesion
+        if (usuario){
+            // TODO: Generar JWT (JSON Web Token)
+            const token = await generarJWT(usuario.id, name);
+            return res.status(200).json({
+                ok: true,
+                uid: usuario.id,
+                name, token
+            });
+        }
+        // si no, registrarlo
+        else {
+            usuario = await new Usuario(req.body);
+            const { uid, name, id } = await usuario.save();
+
+            // TODO: Generar JWT (JSON Web Token)
+            const token = await generarJWT(id, name);
+
+            return res.status(200).json({
+                ok: true,
+                uid: id,
+                name, 
+                token
+            });
+
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Por favor, hable con el administrador'
+        });
+    }
+
+}
+
 const revalidarToken = async (req = request, res = response) => {
     
     const { uid, name } = req;
@@ -94,5 +141,6 @@ const revalidarToken = async (req = request, res = response) => {
 module.exports = {
     crearUsuario,
     loginUsuario,
-    revalidarToken
+    revalidarToken,
+    loginWithSocialNetworks
 }

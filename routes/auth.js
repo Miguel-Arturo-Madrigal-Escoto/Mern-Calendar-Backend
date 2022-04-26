@@ -8,7 +8,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 const { validarCampos } = require('../middlewares/validar-campos');
-const { crearUsuario, loginUsuario, revalidarToken } = require('../controllers/auth');
+const { crearUsuario, loginUsuario, revalidarToken, loginWithSocialNetworks } = require('../controllers/auth');
 const { getUserByEmail } = require('../helpers/getUserByEmail');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
@@ -49,6 +49,18 @@ router.post('/',
     ],
     loginUsuario
 );
+
+// Login with social networks
+router.post(
+    '/login',
+    [
+        check('uid', 'El id es requerido').exists(),
+        check('name', 'El nombre es obligatorio').exists(),
+        check('email', 'El correo es invalido').isEmail(),
+        validarCampos
+    ],
+    loginWithSocialNetworks
+)
 
 router.get('/renew',
     validarJWT, 

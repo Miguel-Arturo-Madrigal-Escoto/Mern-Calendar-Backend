@@ -14,7 +14,10 @@ const UsuarioSchema = new Schema({
     },
     password: {
         type: String,
-        required: true
+    },
+    uid: {
+        type: String,
+        unique: true,      
     }
 });
 
