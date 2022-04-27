@@ -27,6 +27,7 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/events', require('./routes/events'));
 app.get("*", (req, res) => {
+    const path = require("path");
     res.sendFile(path.resolve(__dirname, '../public', 'index.html'));
   });
 
