@@ -19,7 +19,7 @@ dbConnection();
 app.use(cors());
 
 // Directorio Público ( use→ middleware ), aqui se cargara la app de React.js
-app.use(express.static('public'));
+//app.use(express.static('public'));
 
 // Lectura y parseo del body (middleware)
 app.use(express.json());
@@ -28,6 +28,8 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/events', require('./routes/events'));
 app.get('*', (req, res) => {
     const path = require('path');
+    console.log('path',path)
+    console.log('dirname',__dirname)
     res.sendFile(path.resolve(__dirname, './public', 'index.html'));
 });
 
